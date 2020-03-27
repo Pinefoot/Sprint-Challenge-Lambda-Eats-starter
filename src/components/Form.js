@@ -6,7 +6,7 @@ import * as yup from 'yup';
 
 const formSchema = yup.object().shape({
     name: yup.string().required('No pizza for people who forget their name!').min(2, 'name must be more than 2 toppings!'),
-    email: yup.string().email().required('Need your email ya bum!'),
+    //email: yup.string().email().required('Need your email ya bum!'),
     size: yup.string().required('how a big you-a want it!? We-a need-a know!'),
     toppings: yup.boolean().oneOf([true],'You want just a pizza that is just dough? This is how you get that if you leave this open!'),
     instructions: yup.string().required('Tell us things now please.')
@@ -15,40 +15,48 @@ const formSchema = yup.object().shape({
 const Form = () => {
 //state set up
 //button state
-const [button, setButton] = useState(true);
+const [buttonDisabled, setButton] = useState(true);
+
+
 
 //state for form
 const [formState, setFormState] = useState({
     name: '',//input
     size: '',//dropdown
-    toppings: '',//checkboxes
-    instructions: '',//textarea
-})
+    toppings: '' ,//checkboxes
+    instructions: ''//textarea
+});
+
+
 
 //error state
 const [errors, setErrors] = useState({
     name: '',
     size: '',
     toppings: '',
-    instructions: '',
-})
+    instructions: ''
+});
 
 //post state
 const [post, setPost] = useState([])//dont forget you can takethis array out if you want to later.
 //use effect for schema
 useEffect(()=>{
-    formSchema.isValid(formSchema).then(valid =>{
+    formSchema.isValid(formState).then(valid =>{
         setButton(!valid);
     })
-},[formState])
+},[formState]);
+
+
 
 //form submit function for submited form
 const formSubmit = event =>{
     event.preventDefault();
     axios
-    .post('https://reqres.in/api/orders', formState)
+    .post('https://reqres.in/api/users', formState)
     .then(response=>{
+        
         setPost(response.data);
+        console.log('success', post);
         setFormState({
             name: '',
             size: '',
@@ -65,7 +73,7 @@ const validateChange = e => {
     .then(valid =>{
         setErrors({
             ...errors, [e.target.name]: ''
-        })
+        });
     })
     .catch(err => {
         setErrors({
@@ -116,7 +124,7 @@ const inputChange = e => {
                     <option value='large'>Large</option>
                     <option value='extraLarge'>Extra F'n Large</option>
                 </select>
-                {errors.size.length > 0 ? <p className='error'>{errors.size}</p>:null}
+                {/* {errors.size.length > 0 ? <p className='error'>{errors.size}</p>:null} */}
             </label><br/>
 
             <h3> Add Your Toppings!</h3>
@@ -127,43 +135,44 @@ const inputChange = e => {
                 id='toppings'
                 type="checkbox"
                 name="toppings"
-                checked={formState.toppings1}
+                checked={formState.toppings[0]}
                  onChange={inputChange}
-                 />
+                 />{errors.toppings.length > 0 ? <p className='error'>{errors.toppings}</p>:null}
                 
 
                 Pepperoni
                 <input 
-                id='toppings'
+                id='toppings2'
                 type="checkbox"
                 name="toppings"
-                checked={formState.toppings2}
+                checked={formState.toppings[1]}
                  onChange={inputChange}
                  />
                 
 
                  Veggies
                  <input 
-                id='toppings'
+                id='toppings3'
                 type="checkbox"
                 name="toppings"
-                checked={formState.toppings3}
+                checked={formState.toppings[2]}
                  onChange={inputChange}
                  />
                 
 
                  Tomato
                  <input 
-                id='toppings'
+                id='toppings4'
                 type="checkbox"
                 name="toppings"
-                checked={formState.toppings4}
+                checked={formState.toppings[3]}
                  onChange={inputChange}
                  />
-                 {errors.toppings.length > 0 ? <p className='error'>{errors.toppings}</p>:null}
-            </label>
+                {errors.toppings.length > 1 ? <p className='error'>{errors.toppings}</p>:null}
+            </label><br/>
 
             <label htmlFor="instructions">
+                Additional Instructions
                 <textarea
                 id="instructions"
                 name="instructions"
@@ -172,7 +181,7 @@ const inputChange = e => {
                 {errors.instructions.length > 0 ? <p className='error'>{errors.instructions}</p>:null}
             </label>
             <pre>{JSON.stringify(post, null, 2)}</pre>
-            <button disabled={button}>Submit Order</button>
+            <button disabled={buttonDisabled}>Add To Order</button>
 
             
 
