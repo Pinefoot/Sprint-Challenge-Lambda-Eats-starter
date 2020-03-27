@@ -25,6 +25,7 @@ const [formState, setFormState] = useState({
     size: '',//dropdown
     toppings: '' ,//checkboxes
     instructions: ''//textarea
+
 });
 
 
@@ -38,7 +39,7 @@ const [errors, setErrors] = useState({
 });
 
 //post state
-const [post, setPost] = useState([])//dont forget you can takethis array out if you want to later.
+const [post, setPost] = useState()//dont forget you can takethis array out if you want to later.
 //use effect for schema
 useEffect(()=>{
     formSchema.isValid(formState).then(valid =>{
@@ -85,6 +86,7 @@ const validateChange = e => {
 //input change
 const inputChange = e => {
     e.persist();
+    
     const newFormData = {
         ...formState, 
         [e.target.name]:
@@ -137,12 +139,12 @@ const inputChange = e => {
                 name="toppings"
                 checked={formState.toppings[0]}
                  onChange={inputChange}
-                 />{errors.toppings.length > 0 ? <p className='error'>{errors.toppings}</p>:null}
+                 />
                 
 
                 Pepperoni
                 <input 
-                id='toppings2'
+                id='toppings'
                 type="checkbox"
                 name="toppings"
                 checked={formState.toppings[1]}
@@ -152,7 +154,7 @@ const inputChange = e => {
 
                  Veggies
                  <input 
-                id='toppings3'
+                id='toppings'
                 type="checkbox"
                 name="toppings"
                 checked={formState.toppings[2]}
@@ -162,13 +164,13 @@ const inputChange = e => {
 
                  Tomato
                  <input 
-                id='toppings4'
+                id='toppings'
                 type="checkbox"
                 name="toppings"
                 checked={formState.toppings[3]}
                  onChange={inputChange}
                  />
-                {errors.toppings.length > 1 ? <p className='error'>{errors.toppings}</p>:null}
+                
             </label><br/>
 
             <label htmlFor="instructions">
