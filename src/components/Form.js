@@ -8,7 +8,7 @@ const formSchema = yup.object().shape({
     name: yup.string().required('No pizza for people who forget their name!').min(2, 'name must be more than 2 toppings!'),
     email: yup.string().email().required('Need your email ya bum!'),
     size: yup.string().required('how a big you-a want it!? We-a need-a know!'),
-    toppings: yup.string().required('You want just a pizza that is just dough? This is how you get that if you leave this open!'),
+    toppings: yup.boolean().oneOf([true],'You want just a pizza that is just dough? This is how you get that if you leave this open!'),
     instructions: yup.string().required('Tell us things now please.')
 });//closes schema
 
@@ -93,6 +93,7 @@ const inputChange = e => {
             <h2>Build Your Own Pizza!</h2>
 
             <label htmlFor="name">
+                Name:
                 <input 
                 id="name"
                 type="text"
@@ -118,14 +119,45 @@ const inputChange = e => {
                 {errors.size.length > 0 ? <p className='error'>{errors.size}</p>:null}
             </label><br/>
 
-
+            <h3> Add Your Toppings!</h3>
             <label htmlFor="toppings">
-                Add Toppings
+                Cheese
+                
                 <input 
                 id='toppings'
                 type="checkbox"
                 name="toppings"
-                checked={formState.terms}
+                checked={formState.toppings1}
+                 onChange={inputChange}
+                 />
+                
+
+                Pepperoni
+                <input 
+                id='toppings'
+                type="checkbox"
+                name="toppings"
+                checked={formState.toppings2}
+                 onChange={inputChange}
+                 />
+                
+
+                 Veggies
+                 <input 
+                id='toppings'
+                type="checkbox"
+                name="toppings"
+                checked={formState.toppings3}
+                 onChange={inputChange}
+                 />
+                
+
+                 Tomato
+                 <input 
+                id='toppings'
+                type="checkbox"
+                name="toppings"
+                checked={formState.toppings4}
                  onChange={inputChange}
                  />
                  {errors.toppings.length > 0 ? <p className='error'>{errors.toppings}</p>:null}

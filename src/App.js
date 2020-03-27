@@ -5,16 +5,16 @@ import Form from './components/Form';
 
 const App = () => {
   return (
-    <div>
+    <div className ="App">
       
       
-      <Home>
-      <Route exact path='/' component= {Home}/>
-      <Route exact path='/pizza'>
-        <Form/>
-      </Route> 
+      
         
-      </Home> 
+      <Route exact path='/' component= {Home}/>
+      <Route  exact path='/pizza/' component={Form}/>
+         
+        
+      
       
     </div>
   );
