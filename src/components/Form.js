@@ -1,23 +1,28 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import * as yup from 'yup';
+//import {Link} from "react-router-dom";
 
 
 const formSchema = yup.object().shape({
-    name
+    name: yup.string().required('No pizza for people who forget their name!').min(2, 'name must be more than 2 toppings!'),
+    email: yup.string().email().required('Need your email ya bum!'),
+    size: yup.string().required('how a big you-a want it!? We-a need-a know!'),
+    toppings: yup.string().required('You want just a pizza that is just dough? This is how you get that if you leave this open!'),
+    instructions: yup.string().required('Tell us things now please.')
 });//closes schema
 
-export default function Form(){
+const Form = () => {
 //state set up
 //button state
 const [button, setButton] = useState(true);
 
 //state for form
 const [formState, setFormState] = useState({
-    name: '',
-    size: '',
-    toppings: '',
-    instructions: '',
+    name: '',//input
+    size: '',//dropdown
+    toppings: '',//checkboxes
+    instructions: '',//textarea
 })
 
 //error state
@@ -56,12 +61,92 @@ const formSubmit = event =>{
 const validateChange = e => {
     yup
     .reach(formSchema, e.target.name)
-    .validate(e.target.name === 'toppings' e.target.checked : e.target.value)//might need to tweek this.
+    .validate(e.target.name === 'toppings' ? e.target.checked : e.target.value)//might need to tweek this.
+    .then(valid =>{
+        setErrors({
+            ...errors, [e.target.name]: ''
+        })
+    })
+    .catch(err => {
+        setErrors({
+            ...errors, [e.target.name]: err.errors[0]
+        })
+    })
+}
+
+//input change
+const inputChange = e => {
+    e.persist();
+    const newFormData = {
+        ...formState, 
+        [e.target.name]:
+        e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    }
+    validateChange(e);
+    setFormState(newFormData);
 }
 
 
-
     return(
+        //building out that big ole form yup!
+        <form onSubmit ={formSubmit}>
+            <h2>Build Your Own Pizza!</h2>
+
+            <label htmlFor="name">
+                <input 
+                id="name"
+                type="text"
+                name="name"
+                value={formState.name}
+                onChange={inputChange}
+                />
+                {errors.name.length > 0 ? <p className='error'>{errors.name}</p>:null}
+                
+            </label>
+
+            <label htmlFor='size'>
+                Choice of Size
+                <select
+                id = 'size'
+                name = 'size'
+                onChange={inputChange}>
+                    <option value ='small'>Small</option>
+                    <option value='medium'>Medium</option>
+                    <option value='large'>Large</option>
+                    <option value='extraLarge'>Extra F'n Large</option>
+                </select>
+                {errors.size.length > 0 ? <p className='error'>{errors.size}</p>:null}
+            </label><br/>
+
+
+            <label htmlFor="toppings">
+                Add Toppings
+                <input 
+                id='toppings'
+                type="checkbox"
+                name="toppings"
+                checked={formState.terms}
+                 onChange={inputChange}
+                 />
+                 {errors.toppings.length > 0 ? <p className='error'>{errors.toppings}</p>:null}
+            </label>
+
+            <label htmlFor="instructions">
+                <textarea
+                id="instructions"
+                name="instructions"
+                value={formState.flavor}
+                onChange={inputChange}/>
+                {errors.instructions.length > 0 ? <p className='error'>{errors.instructions}</p>:null}
+            </label>
+            <pre>{JSON.stringify(post, null, 2)}</pre>
+            <button disabled={button}>Submit Order</button>
+
+            
+
+
+
+        </form>
 
     )//closes Form Return.
 
@@ -72,3 +157,5 @@ const validateChange = e => {
 
 
 }//closes form function
+
+export default Form;
