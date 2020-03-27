@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import Home from "./Components/Home.js";
-import Form from './Components/Form';
+import Home from "./components/Home";
+import Form from './components/Form';
 
 const App = () => {
   return (
@@ -10,7 +10,7 @@ const App = () => {
       
       <p>You can remove this code and create your own header</p>
       <Route exact path='/' component= {Home}/>
-      <Route exact path='/form' component={Form}/>
+      <Route exact path='/pizza' component={Form}/>
     </div>
   );
 };
