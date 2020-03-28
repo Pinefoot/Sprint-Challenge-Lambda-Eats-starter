@@ -13,8 +13,13 @@ Demonstrate your understanding of this week's concepts by answering the followin
 Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your Team Lead.
 
 1. In 1-2 sentences, explain what React's `useRouteMatch` hook is used for.
+useRouteMatch is used for setting up the strict, path, sensative and exact options for a route in one hook. It also gives you access to the match property without rendering a <!--<Route>-->. It also matches the url like a route component.
 2. How would you explain form validation to someone who has never programmed before?
-3. In 1-2 sentences, define end to end testing. 
+I'd explain form validatin by saying that the form needs meet certain perameters befroe it can be used. Like when fillingout a survey and if you were to skip a questoin you wouldn't get the full extent of the information. Form validation prevents that by requiring that all conditions be met so that we get the imortant pieces of information.
+
+
+3. In 1-2 sentences, define end to end testing.
+End testing is a technique used to test whether the flow of an app is behaving correctly from start to finish. It helps identify system dependencies and points out potential bugs for the application.
 
 You are expected to be able to answer all these questions. Your responses contribute to your Sprint Challenge grade. Skipping this section **will** prevent you from passing this challenge.
 
@@ -50,9 +55,9 @@ Your MVP should include, at a minimum, the following components.
 
 Implement the following tests in Cypress:
 
-- [ ] test that you can add text to the box
-- [ ] test that you can select multiple toppings
-- [ ] test that you can submit the form
+- [ x] test that you can add text to the box
+- [ x] test that you can select multiple toppings
+- [ x] test that you can submit the form
 
 You may use the following wireframe (also in a folder above) as guidance as you design your site but it is not required that you do so.
 
